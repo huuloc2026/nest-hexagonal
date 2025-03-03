@@ -6,6 +6,8 @@ import { AuthRepositoryAdapter } from './infrastructure/adapters/auth.repository
 import { AUTH_REPOSITORY } from './domain/ports/auth.repository.port';
 import { UsersModule } from '../users/users.module';
 import { SharedModule } from 'src/shared/shared.module';
+import { AtStrategy } from './interface/strategies/at.strategy';
+import { RtStrategy } from './interface/strategies/rt.strategy';
 
 @Module({
   imports: [JwtModule.register({}), UsersModule, SharedModule],
@@ -16,6 +18,8 @@ import { SharedModule } from 'src/shared/shared.module';
       provide: AUTH_REPOSITORY,
       useClass: AuthRepositoryAdapter,
     },
+    AtStrategy,
+    RtStrategy,
   ],
 })
 export class AuthModule {}

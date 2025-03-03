@@ -1,5 +1,10 @@
-import { Injectable, Inject, UnauthorizedException } from '@nestjs/common';
-import { LoginDto } from '../dtos/login.dto';
+import {
+  Injectable,
+  Inject,
+  UnauthorizedException,
+  Logger,
+} from '@nestjs/common';
+
 import { Auth } from '../../domain/entities/auth.entity';
 import {
   AuthRepositoryPort,
@@ -7,6 +12,7 @@ import {
 } from '../../domain/ports/auth.repository.port';
 import { UserService } from '../../../users/application/services/user.service';
 import { CryptoService } from '../../../shared/services/crypto.service';
+import { LoginDto, RegisterDto } from 'src/auth/application/dtos';
 
 @Injectable()
 export class AuthService {
@@ -16,17 +22,16 @@ export class AuthService {
     private readonly userService: UserService,
     private readonly cryptoService: CryptoService,
   ) {}
-
+  async register(registerDto: RegisterDto): Promise<Auth> {
+    const user = await this.userService.create(registerDto);
+    return this.authRepository.generateTokens(user);
+  }
   async login(loginDto: LoginDto): Promise<Auth> {
     const user = await this.userService.findByEmail(loginDto.email);
     if (!user) {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // const hashedPassword = this.cryptoService.hashPassword(
-    //   loginDto.password,
-    //   user.salt,
-    // );
     const isPasswordValid = this.cryptoService.verifyPassword(
       loginDto.password,
       user.password,

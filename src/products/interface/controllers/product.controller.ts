@@ -6,11 +6,15 @@ import {
   Delete,
   Body,
   Param,
+  UseGuards,
 } from '@nestjs/common';
 import { ProductService } from '../../application/services/product.service';
 import { CreateProductDto } from '../../application/dtos/create-product.dto';
 import { UpdateProductDto } from '../../application/dtos/update-product.dto';
+import { AtGuard } from 'src/auth/interface/guards/at.guard';
+import { IsPublic } from 'src/auth/interface/decorators/is-public.decorator';
 
+@UseGuards(AtGuard)
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
@@ -38,5 +42,11 @@ export class ProductController {
   @Delete(':id')
   delete(@Param('id') id: string) {
     return this.productService.delete(id);
+  }
+
+  @IsPublic()
+  @Get('public')
+  publicEndpoint() {
+    // ...
   }
 }
