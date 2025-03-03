@@ -7,12 +7,14 @@ import { AuthModule } from 'src/auth/auth.module';
 import { PrismaModule } from 'src/infrastructure/prisma/prisma.module';
 import { ProductsModule } from 'src/products/products.module';
 import { UsersModule } from 'src/users/users.module';
+import { RedisModule } from './shared/redis/redis.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
     }),
+    RedisModule,
     PrismaModule,
     ProductsModule,
     UsersModule,

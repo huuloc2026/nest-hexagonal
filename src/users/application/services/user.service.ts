@@ -59,8 +59,9 @@ export class UserService {
     });
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
+  async update(id: string, updateUserDto: Partial<User>): Promise<User> {
     await this.findById(id);
+
     if (updateUserDto.email) {
       const existingUser = await this.userRepository.findByEmail(
         updateUserDto.email,
@@ -69,6 +70,7 @@ export class UserService {
         throw new ConflictException('Email already exists');
       }
     }
+
     return this.userRepository.update(id, updateUserDto);
   }
 

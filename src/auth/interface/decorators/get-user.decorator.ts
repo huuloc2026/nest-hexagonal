@@ -8,7 +8,7 @@ interface UserData {
 }
 
 type UserFields = keyof UserData;
-export const getUser = createParamDecorator(
+export const GetUser = createParamDecorator(
   (data: UserFields | undefined, ctx: ExecutionContext) => {
     const request = ctx.switchToHttp().getRequest();
     const user = request.user;

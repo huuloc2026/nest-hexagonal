@@ -5,12 +5,16 @@ import {
   UseGuards,
   HttpStatus,
   HttpCode,
+  Patch,
 } from '@nestjs/common';
 import { AuthService } from '../../application/services/auth.service';
 
 import { GetRefreshToken } from '../decorators/get-refresh-token.decorator';
 import { LoginDto, RegisterDto } from 'src/auth/application/dtos';
 import { RtGuard } from 'src/auth/interface/guards/rt.guard';
+import { AtGuard } from '../guards/at.guard';
+import { GetUser } from '../decorators/get-user.decorator';
+import { ChangePasswordDto } from 'src/auth/application/dtos/change-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -19,19 +23,38 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto) {
-    return this.authService.login(loginDto);
+    return await this.authService.login(loginDto);
   }
 
   @Post('register')
   @HttpCode(HttpStatus.OK)
   async register(@Body() registerDto: RegisterDto) {
-    return this.authService.register(registerDto);
+    return await this.authService.register(registerDto);
   }
 
   @UseGuards(RtGuard)
   @Post('refresh')
   @HttpCode(HttpStatus.CREATED)
   async refresh(@GetRefreshToken() refreshToken: string) {
-    return this.authService.refreshToken(refreshToken);
+    return await this.authService.refreshToken(refreshToken);
+  }
+
+  @UseGuards(AtGuard)
+  @Patch('change-password')
+  @HttpCode(HttpStatus.OK)
+  async changePassword(
+    @GetUser('sub') userId: string,
+    @Body() changePasswordDto: ChangePasswordDto,
+  ) {
+    await this.authService.changePassword(userId, changePasswordDto);
+    return { message: 'Password changed successfully' };
+  }
+
+  @UseGuards(AtGuard)
+  @Post('logout')
+  @HttpCode(HttpStatus.OK)
+  async logout(@GetUser('sub') userId: string) {
+    await this.authService.logout(userId);
+    return { message: 'Logged out successfully' };
   }
 }

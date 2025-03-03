@@ -8,9 +8,11 @@ import { UsersModule } from '../users/users.module';
 import { SharedModule } from 'src/shared/shared.module';
 import { AtStrategy } from './interface/strategies/at.strategy';
 import { RtStrategy } from './interface/strategies/rt.strategy';
+import { TokenBlacklistGuard } from './interface/guards/token-blacklist.guard';
+import { RedisModule } from '../shared/redis/redis.module';
 
 @Module({
-  imports: [JwtModule.register({}), UsersModule, SharedModule],
+  imports: [JwtModule.register({}), UsersModule, SharedModule, RedisModule],
   controllers: [AuthController],
   providers: [
     AuthService,
@@ -20,6 +22,8 @@ import { RtStrategy } from './interface/strategies/rt.strategy';
     },
     AtStrategy,
     RtStrategy,
+    TokenBlacklistGuard,
   ],
+  exports: [TokenBlacklistGuard],
 })
 export class AuthModule {}
