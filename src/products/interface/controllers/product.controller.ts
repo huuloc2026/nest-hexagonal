@@ -24,7 +24,7 @@ export class ProductController {
 
   @Get()
   findAll(
-    @GetUser('email') userId: string,
+    @GetUser('email') email: string,
     @Query() paginationDto: PaginationDto,
   ) {
     return this.productService.findAll(paginationDto);
