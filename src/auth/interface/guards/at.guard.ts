@@ -30,6 +30,7 @@ export class AtGuard extends AuthGuard('jwt') {
     if (err || !user) {
       throw err || new UnauthorizedException();
     }
+
     return user;
   }
 }

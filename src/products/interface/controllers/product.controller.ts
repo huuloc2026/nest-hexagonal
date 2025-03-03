@@ -13,6 +13,7 @@ import { CreateProductDto } from '../../application/dtos/create-product.dto';
 import { UpdateProductDto } from '../../application/dtos/update-product.dto';
 import { AtGuard } from 'src/auth/interface/guards/at.guard';
 import { IsPublic } from 'src/auth/interface/decorators/is-public.decorator';
+import { getUser } from 'src/auth/interface/decorators/get-user.decorator';
 
 @UseGuards(AtGuard)
 @Controller('products')
@@ -20,7 +21,8 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  findAll() {
+  findAll(@getUser('email') userId: string) {
+    console.log(userId);
     return this.productService.findAll();
   }
 
