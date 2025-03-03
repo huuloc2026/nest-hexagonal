@@ -31,7 +31,15 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
     return {
       data: users.map(
         (u) =>
-          new User(u.id, u.email, u.password, u.name, u.createdAt, u.updatedAt),
+          new User(
+            u.id,
+            u.email,
+            u.password,
+            u.salt,
+            u.name,
+            u.createdAt,
+            u.updatedAt,
+          ),
       ),
       page,
       limit,
@@ -49,6 +57,7 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
       user.id,
       user.email,
       user.password,
+      user.salt,
       user.name,
       user.createdAt,
       user.updatedAt,
@@ -64,6 +73,7 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
       user.id,
       user.email,
       user.password,
+      user.salt,
       user.name,
       user.createdAt,
       user.updatedAt,
@@ -80,6 +90,7 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
       newUser.id,
       newUser.email,
       newUser.password,
+      newUser.salt,
       newUser.name,
       newUser.createdAt,
       newUser.updatedAt,
@@ -95,6 +106,7 @@ export class UserRepositoryAdapter implements UserRepositoryPort {
       updatedUser.id,
       updatedUser.email,
       updatedUser.password,
+      updatedUser.salt,
       updatedUser.name,
       updatedUser.createdAt,
       updatedUser.updatedAt,

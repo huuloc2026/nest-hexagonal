@@ -12,13 +12,19 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { User } from '../../domain/entities/user.entity';
 import { PaginatedResult } from 'src/shared/interface/PaginatedResult';
+import { CryptoService } from 'src/shared/services/crypto.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @Inject(USER_REPOSITORY)
     private readonly userRepository: UserRepositoryPort,
+    private readonly cryptoService: CryptoService,
   ) {}
+
+  async findByEmail(email: string): Promise<User> {
+    return this.userRepository.findByEmail(email);
+  }
 
   async findAll(): Promise<PaginatedResult<User>> {
     return this.userRepository.findAll();
@@ -39,7 +45,18 @@ export class UserService {
     if (existingUser) {
       throw new ConflictException('Email already exists');
     }
-    return this.userRepository.create(createUserDto);
+
+    const salt = this.cryptoService.generateSalt();
+    const hashedPassword = this.cryptoService.hashPassword(
+      createUserDto.password,
+      salt,
+    );
+
+    return this.userRepository.create({
+      ...createUserDto,
+      password: hashedPassword,
+      salt,
+    });
   }
 
   async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
