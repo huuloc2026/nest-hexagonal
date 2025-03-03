@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { AuthRepositoryPort } from '../../domain/ports/auth.repository.port';
 import { Auth } from '../../domain/entities/auth.entity';
-import { User } from '../../../users/domain/entities/user.entity';
+import { User } from 'src/module/users/domain/entities/user.entity';
 
 @Injectable()
 export class AuthRepositoryAdapter implements AuthRepositoryPort {

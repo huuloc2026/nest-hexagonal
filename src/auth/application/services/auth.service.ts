@@ -11,11 +11,11 @@ import {
   AuthRepositoryPort,
   AUTH_REPOSITORY,
 } from '../../domain/ports/auth.repository.port';
-import { UserService } from '../../../users/application/services/user.service';
-import { CryptoService } from '../../../shared/services/crypto.service';
+import { UserService } from 'src/module/users/application/services/user.service';
+import { CryptoService } from 'src/shared/services/crypto.service';
 import { LoginDto, RegisterDto } from 'src/auth/application/dtos';
 import { ChangePasswordDto } from '../dtos/change-password.dto';
-import { RedisService } from '../../../shared/redis/redis.service';
+import { RedisService } from 'src/shared/redis/redis.service';
 
 @Injectable()
 export class AuthService {

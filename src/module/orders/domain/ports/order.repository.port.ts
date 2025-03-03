@@ -1,11 +1,11 @@
-import { BaseRepositoryPort } from '../../../shared/interface/BaseRepository.interface';
+import { BaseRepositoryPort } from 'src/shared/interface/BaseRepository.interface';
 import { Order } from '../entities/order.entity';
 import { OrderStatus } from '@prisma/client';
 import { CreateOrderDto } from '../../application/dtos/create-order.dto';
 import {
   PaginatedResult,
   PaginationDto,
-} from '../../../shared/interface/PaginatedResult';
+} from 'src/shared/interface/PaginatedResult';
 
 export interface OrderRepositoryPort
   extends BaseRepositoryPort<Order, CreateOrderDto> {

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
+import { PrismaService } from 'src/infrastructure/prisma/prisma.service';
 import { OrderRepositoryPort } from '../../domain/ports/order.repository.port';
 import { Order } from '../../domain/entities/order.entity';
 import { OrderItem } from '../../domain/entities/order-item.entity';
@@ -8,7 +8,7 @@ import { OrderStatus } from '@prisma/client';
 import {
   PaginatedResult,
   PaginationDto,
-} from '../../../shared/interface/PaginatedResult';
+} from 'src/shared/interface/PaginatedResult';
 
 @Injectable()
 export class OrderRepositoryAdapter implements OrderRepositoryPort {

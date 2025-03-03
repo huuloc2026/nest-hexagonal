@@ -1,9 +1,10 @@
 import { Logger, Module } from '@nestjs/common';
-import * as redisStore from 'cache-manager-redis-store';
+
 import { RedisService } from './redis.service';
 
 import { CacheModule } from '@nestjs/cache-manager';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { redisStore } from 'cache-manager-redis-store';
 
 const redisModuleFactory = CacheModule.registerAsync({
   isGlobal: true,
@@ -12,12 +13,12 @@ const redisModuleFactory = CacheModule.registerAsync({
     const logger = new Logger('RedisModule');
     const redisConfig = {
       store: redisStore,
-      isGlobal: true,
-      host: configService.getOrThrow('CACHE_HOST'),
-      port: configService.getOrThrow('CACHE_PORT'),
       url: configService.getOrThrow('CACHE_URL'),
+      ttl: configService.getOrThrow('CACHE_TTL'),
     };
+
     logger.log(`🔄 Connecting to Redis at ${redisConfig.url}`);
+
     return redisConfig;
   },
   inject: [ConfigService],

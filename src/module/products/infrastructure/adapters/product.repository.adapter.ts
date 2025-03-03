@@ -1,14 +1,31 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
+import { PrismaService } from '../../../../infrastructure/prisma/prisma.service';
 import { ProductRepositoryPort } from '../../domain/ports/product.repository.port';
 import { Product } from '../../domain/entities/product.entity';
 import {
   PaginatedResult,
   PaginationDto,
 } from 'src/shared/interface/PaginatedResult';
+import { Decimal } from '@prisma/client/runtime/library';
+
 @Injectable()
 export class ProductRepositoryAdapter implements ProductRepositoryPort {
   constructor(private readonly prisma: PrismaService) {}
+
+  private mapToEntity(data: any): Product {
+    return new Product(
+      data.id,
+      data.name,
+      data.description,
+      new Decimal(data.price),
+      data.stock,
+      data.category,
+      data.variants || [],
+      data.reviews || [],
+      data.createdAt,
+      data.updatedAt,
+    );
+  }
 
   async findAll(
     PaginationDto: PaginationDto,
@@ -20,49 +37,27 @@ export class ProductRepositoryAdapter implements ProductRepositoryPort {
       this.prisma.product.findMany({
         skip,
         take: limit,
-        orderBy: {
-          createdAt: orderBy,
-        },
+        orderBy: { createdAt: orderBy },
+        include: { variants: true, reviews: true },
       }),
       this.prisma.product.count(),
     ]);
 
-    const totalPages = Math.ceil(total / limit);
-
     return {
-      data: products.map(
-        (p) =>
-          new Product(
-            p.id,
-            p.name,
-            p.description,
-            Number(p.price),
-            p.stock,
-            p.createdAt,
-            p.updatedAt,
-          ),
-      ),
+      data: products.map(this.mapToEntity),
       page,
       limit,
-      totalPages,
       total,
+      totalPages: Math.ceil(total / limit),
     };
   }
 
   async findById(id: string): Promise<Product | null> {
     const product = await this.prisma.product.findUnique({
       where: { id },
+      include: { variants: true, reviews: true },
     });
-    if (!product) return null;
-    return new Product(
-      product.id,
-      product.name,
-      product.description,
-      Number(product.price),
-      product.stock,
-      product.createdAt,
-      product.updatedAt,
-    );
+    return product ? this.mapToEntity(product) : null;
   }
 
   async create(
@@ -70,43 +65,33 @@ export class ProductRepositoryAdapter implements ProductRepositoryPort {
   ): Promise<Product> {
     const newProduct = await this.prisma.product.create({
       data: {
-        ...product,
-        price: product.price.toString(),
+        name: product.name,
+        description: product.description,
+        price: new Decimal(product.price),
+        stock: product.stock,
+        category: product.category,
       },
+      include: { variants: true, reviews: true },
     });
-    return new Product(
-      newProduct.id,
-      newProduct.name,
-      newProduct.description,
-      Number(newProduct.price),
-      newProduct.stock,
-      newProduct.createdAt,
-      newProduct.updatedAt,
-    );
+    return this.mapToEntity(newProduct);
   }
 
   async update(id: string, product: Partial<Product>): Promise<Product> {
     const updatedProduct = await this.prisma.product.update({
       where: { id },
       data: {
-        ...product,
-        price: product.price?.toString(),
+        name: product.name,
+        description: product.description,
+        price: product.price,
+        stock: product.stock,
+        category: product.category,
       },
+      include: { variants: true, reviews: true },
     });
-    return new Product(
-      updatedProduct.id,
-      updatedProduct.name,
-      updatedProduct.description,
-      Number(updatedProduct.price),
-      updatedProduct.stock,
-      updatedProduct.createdAt,
-      updatedProduct.updatedAt,
-    );
+    return this.mapToEntity(updatedProduct);
   }
 
   async delete(id: string): Promise<void> {
-    await this.prisma.product.delete({
-      where: { id },
-    });
+    await this.prisma.product.delete({ where: { id } });
   }
 }

@@ -1,13 +1,12 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from 'src/app.controller';
-import { AppService } from 'src/app.service';
-import { AuthModule } from 'src/auth/auth.module';
-
-import { PrismaModule } from 'src/infrastructure/prisma/prisma.module';
-import { ProductsModule } from 'src/products/products.module';
-import { UsersModule } from 'src/users/users.module';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { PrismaModule } from './infrastructure/prisma/prisma.module';
 import { RedisModule } from './shared/redis/redis.module';
+import { ProductsModule } from 'src/module/products/products.module';
+import { UsersModule } from 'src/module/users/users.module';
+import { AuthModule } from 'src/auth/auth.module';
 
 @Module({
   imports: [

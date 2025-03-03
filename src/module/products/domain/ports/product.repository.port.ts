@@ -8,9 +8,7 @@ import {
 export interface ProductRepositoryPort extends BaseRepositoryPort<Product> {
   findAll(PaginationDto: PaginationDto): Promise<PaginatedResult<Product>>;
   findById(id: string): Promise<Product | null>;
-  create(
-    product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>,
-  ): Promise<Product>;
+  create(product: Partial<Product>): Promise<Product>;
   update(id: string, product: Partial<Product>): Promise<Product>;
   delete(id: string): Promise<void>;
 }

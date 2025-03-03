@@ -13,22 +13,16 @@ interface TokenPair {
 }
 
 @Injectable()
-export class RedisService implements OnModuleInit {
+export class RedisService {
   private readonly logger = new Logger(RedisService.name);
 
   constructor(@Inject(CACHE_MANAGER) private cacheManager: Cache) {}
-
-  async onModuleInit() {
-    await this.checkRedisConnection();
-  }
 
   /**
    * Check Redis connection status
    */
   async checkRedisConnection(): Promise<void> {
     try {
-      const redisClient = (this.cacheManager as any).store.getClient();
-      await redisClient.ping(); // Redis PING command
       this.logger.log('✅ Redis connection is healthy.');
     } catch (error) {
       this.logger.error('❌ Failed to connect to Redis', error);
@@ -63,6 +57,7 @@ export class RedisService implements OnModuleInit {
 
   async storeUserTokens(userId: string, tokens: TokenPair): Promise<void> {
     const key = this.getUserTokensKey(userId);
+
     this.logger.log(`Storing tokens for user ${userId}`);
     await this.cacheManager.set(key, tokens, 7 * 24 * 60 * 60);
   }

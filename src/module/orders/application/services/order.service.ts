@@ -14,8 +14,8 @@ import { OrderStatus } from '@prisma/client';
 import {
   PaginatedResult,
   PaginationDto,
-} from '../../../shared/interface/PaginatedResult';
-import { CreateOrderDto } from 'src/orders/application/dtos/create-order.dto';
+} from 'src/shared/interface/PaginatedResult';
+import { CreateOrderDto } from 'src/module/orders/application/dtos/create-order.dto';
 
 @Injectable()
 export class OrderService {

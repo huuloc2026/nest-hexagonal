@@ -1,5 +1,5 @@
 import { Auth } from '../entities/auth.entity';
-import { User } from '../../../users/domain/entities/user.entity';
+import { User } from 'src/module/users/domain/entities/user.entity';
 
 export interface AuthRepositoryPort {
   generateTokens(user: User): Promise<Auth>;
