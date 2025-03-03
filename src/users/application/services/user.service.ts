@@ -11,7 +11,10 @@ import {
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UpdateUserDto } from '../dtos/update-user.dto';
 import { User } from '../../domain/entities/user.entity';
-import { PaginatedResult } from 'src/shared/interface/PaginatedResult';
+import {
+  PaginatedResult,
+  PaginationDto,
+} from 'src/shared/interface/PaginatedResult';
 import { CryptoService } from 'src/shared/services/crypto.service';
 
 @Injectable()
@@ -26,8 +29,8 @@ export class UserService {
     return this.userRepository.findByEmail(email);
   }
 
-  async findAll(): Promise<PaginatedResult<User>> {
-    return this.userRepository.findAll();
+  async findAll(PaginationDto: PaginationDto): Promise<PaginatedResult<User>> {
+    return this.userRepository.findAll(PaginationDto);
   }
 
   async findById(id: string): Promise<User> {

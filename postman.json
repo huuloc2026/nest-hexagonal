@@ -1,8 +1,10 @@
 {
   "info": {
-    "_postman_id": "your-collection-id",
+    "_postman_id": "2693aaaa-5936-4634-bf37-d87abd00c1ed",
+
     "name": "NestJS API",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "39419222"
   },
   "item": [
     {
@@ -35,7 +37,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get User by ID",
@@ -49,11 +52,12 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "dd87eeea-3720-4106-8bd4-abec9d7d7c4f"
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Create User",
@@ -67,14 +71,15 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password123\",\n    \"name\": \"John Doe\"\n}"
+              "raw": "{\n   \"email\":\"user@example.com\",\n    \"password\": \"password123\",\n    \"name\": \"John Doe\"\n}"
             },
             "url": {
               "raw": "{{base_url}}/users",
               "host": ["{{base_url}}"],
               "path": ["users"]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Update User",
@@ -97,11 +102,12 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "090da0ce-c4f3-466f-bff0-812c47476d70"
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Delete User",
@@ -115,11 +121,12 @@
               "variable": [
                 {
                   "key": "id",
-                  "value": ""
+                  "value": "dd87eeea-3720-4106-8bd4-abec9d7d7c4f"
                 }
               ]
             }
-          }
+          },
+          "response": []
         }
       ]
     },
@@ -153,7 +160,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Get Product by ID",
@@ -171,7 +179,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Create Product",
@@ -192,7 +201,8 @@
               "host": ["{{base_url}}"],
               "path": ["products"]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Update Product",
@@ -219,7 +229,8 @@
                 }
               ]
             }
-          }
+          },
+          "response": []
         },
         {
           "name": "Delete Product",
@@ -237,7 +248,181 @@
                 }
               ]
             }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNmQ1ZmYwNS01NjEwLTQwODktYmNkZS1mMTdjY2MyMDVkYmQiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDA5OTM1MzIsImV4cCI6MTc0MDk5NDQzMn0.RHttvX2rOd3tuOlo0_fp0Wt4bQkFEkvMOtuYkBpef-g",
+            "type": "string"
           }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "packages": {},
+            "exec": [""]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"user@example.com\",\n    \"password\": \"password1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "login"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"use222r@example.com\",\n    \"password\": \"password123\",\n    \"name\":\"Huu Loc\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "register"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "refreshtoken",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNmQ1ZmYwNS01NjEwLTQwODktYmNkZS1mMTdjY2MyMDVkYmQiLCJpYXQiOjE3NDEwMDYyOTMsImV4cCI6MTc0MTYxMTA5M30.sjqTwzxWz2H6IqVwD1UYIxrmwjv2YN4p7HMi4cVRHtg",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/refresh",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "refresh"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Change Password",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNmQ1ZmYwNS01NjEwLTQwODktYmNkZS1mMTdjY2MyMDVkYmQiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDA5OTQ1OTcsImV4cCI6MTc0MDk5NTQ5N30.GbplLtqsNUdDTz1m6GY17olL-rkKddRQA1axANjC364",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"oldPassword\": \"password1234\",\n    \"newPassword\": \"password1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/change-password",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "change-password"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "logout",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmNmQ1ZmYwNS01NjEwLTQwODktYmNkZS1mMTdjY2MyMDVkYmQiLCJlbWFpbCI6InVzZXJAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDEwMDYxMDUsImV4cCI6MTc0MTAwNzAwNX0.FqK60FCy72JogZ6bPteUFMBxB-ekatpAAn6dd0WokBE",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"oldPassword\": \"password1234\",\n    \"newPassword\": \"password1234\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/logout",
+              "host": ["{{base_url}}"],
+              "path": ["auth", "logout"]
+            }
+          },
+          "response": []
         }
       ]
     }

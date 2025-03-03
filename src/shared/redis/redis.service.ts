@@ -50,29 +50,27 @@ export class RedisService implements OnModuleInit {
     ttl = 3600,
   ): Promise<void> {
     const key = this.getBlacklistKey(token);
-    this.logger.debug(`Adding token to blacklist: ${token.slice(0, 10)}...`);
+    this.logger.log(`Adding token to blacklist: ${token.slice(0, 10)}...`);
     await this.cacheManager.set(key, userId, ttl);
   }
 
   async isBlacklisted(token: string): Promise<boolean> {
     const key = this.getBlacklistKey(token);
     const value = await this.cacheManager.get(key);
-    this.logger.debug(
-      `Blacklist check for ${token.slice(0, 10)}...: ${!!value}`,
-    );
+    this.logger.log(`Blacklist check for ${token.slice(0, 10)}...: ${!!value}`);
     return !!value;
   }
 
   async storeUserTokens(userId: string, tokens: TokenPair): Promise<void> {
     const key = this.getUserTokensKey(userId);
-    this.logger.debug(`Storing tokens for user ${userId}`);
+    this.logger.log(`Storing tokens for user ${userId}`);
     await this.cacheManager.set(key, tokens, 7 * 24 * 60 * 60);
   }
 
   async getUserTokens(userId: string): Promise<TokenPair | null> {
     const key = this.getUserTokensKey(userId);
     const tokens = await this.cacheManager.get<TokenPair>(key);
-    this.logger.debug(`Retrieved tokens for user ${userId}: ${!!tokens}`);
+    this.logger.log(`Retrieved tokens for user ${userId}: ${!!tokens}`);
     return tokens || null;
   }
 

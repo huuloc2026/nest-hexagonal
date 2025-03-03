@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   UseGuards,
+  Query,
 } from '@nestjs/common';
 import { ProductService } from '../../application/services/product.service';
 import { CreateProductDto } from '../../application/dtos/create-product.dto';
@@ -14,6 +15,7 @@ import { UpdateProductDto } from '../../application/dtos/update-product.dto';
 import { AtGuard } from 'src/auth/interface/guards/at.guard';
 import { IsPublic } from 'src/auth/interface/decorators/is-public.decorator';
 import { GetUser } from 'src/auth/interface/decorators/get-user.decorator';
+import { PaginationDto } from 'src/shared/interface/PaginatedResult';
 
 @UseGuards(AtGuard)
 @Controller('products')
@@ -21,9 +23,11 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
-  findAll(@GetUser('email') userId: string) {
-    console.log(userId);
-    return this.productService.findAll();
+  findAll(
+    @GetUser('email') userId: string,
+    @Query() paginationDto: PaginationDto,
+  ) {
+    return this.productService.findAll(paginationDto);
   }
 
   @Get(':id')

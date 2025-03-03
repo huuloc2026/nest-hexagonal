@@ -1,7 +1,12 @@
+import { BaseRepositoryPort } from 'src/shared/interface/BaseRepository.interface';
 import { Product } from '../entities/product.entity';
+import {
+  PaginatedResult,
+  PaginationDto,
+} from 'src/shared/interface/PaginatedResult';
 
-export interface ProductRepositoryPort {
-  findAll(): Promise<Product[]>;
+export interface ProductRepositoryPort extends BaseRepositoryPort<Product> {
+  findAll(PaginationDto: PaginationDto): Promise<PaginatedResult<Product>>;
   findById(id: string): Promise<Product | null>;
   create(
     product: Omit<Product, 'id' | 'createdAt' | 'updatedAt'>,

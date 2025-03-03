@@ -8,10 +8,12 @@ import {
   Param,
   HttpStatus,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { UserService } from '../../application/services/user.service';
 import { CreateUserDto } from '../../application/dtos/create-user.dto';
 import { UpdateUserDto } from '../../application/dtos/update-user.dto';
+import { PaginationDto } from 'src/shared/interface/PaginatedResult';
 
 @Controller('users')
 export class UserController {
@@ -19,8 +21,8 @@ export class UserController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query() paginationDto: PaginationDto) {
+    return this.userService.findAll(paginationDto);
   }
 
   @Get(':id')

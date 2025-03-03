@@ -2,25 +2,51 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import { ProductRepositoryPort } from '../../domain/ports/product.repository.port';
 import { Product } from '../../domain/entities/product.entity';
-
+import {
+  PaginatedResult,
+  PaginationDto,
+} from 'src/shared/interface/PaginatedResult';
 @Injectable()
 export class ProductRepositoryAdapter implements ProductRepositoryPort {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(): Promise<Product[]> {
-    const products = await this.prisma.product.findMany();
-    return products.map(
-      (p) =>
-        new Product(
-          p.id,
-          p.name,
-          p.description,
-          Number(p.price),
-          p.stock,
-          p.createdAt,
-          p.updatedAt,
-        ),
-    );
+  async findAll(
+    PaginationDto: PaginationDto,
+  ): Promise<PaginatedResult<Product>> {
+    const { page, limit, orderBy } = PaginationDto;
+    const skip = (page - 1) * limit;
+
+    const [products, total] = await Promise.all([
+      this.prisma.product.findMany({
+        skip,
+        take: limit,
+        orderBy: {
+          createdAt: orderBy,
+        },
+      }),
+      this.prisma.product.count(),
+    ]);
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+      data: products.map(
+        (p) =>
+          new Product(
+            p.id,
+            p.name,
+            p.description,
+            Number(p.price),
+            p.stock,
+            p.createdAt,
+            p.updatedAt,
+          ),
+      ),
+      page,
+      limit,
+      totalPages,
+      total,
+    };
   }
 
   async findById(id: string): Promise<Product | null> {

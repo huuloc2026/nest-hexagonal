@@ -2,17 +2,17 @@ import { Injectable } from '@nestjs/common';
 import { PrismaService } from '../../../infrastructure/prisma/prisma.service';
 import { UserRepositoryPort } from '../../domain/ports/user.repository.port';
 import { User } from '../../domain/entities/user.entity';
-import { PaginatedResult } from 'src/shared/interface/PaginatedResult';
+import {
+  PaginatedResult,
+  PaginationDto,
+} from 'src/shared/interface/PaginatedResult';
 
 @Injectable()
 export class UserRepositoryAdapter implements UserRepositoryPort {
   constructor(private readonly prisma: PrismaService) {}
 
-  async findAll(
-    page: number = 1,
-    limit: number = 10,
-    orderBy: 'asc' | 'desc' = 'desc',
-  ): Promise<PaginatedResult<User>> {
+  async findAll(PaginationDto: PaginationDto): Promise<PaginatedResult<User>> {
+    const { page, limit, orderBy } = PaginationDto;
     const skip = (page - 1) * limit;
 
     const [users, total] = await Promise.all([

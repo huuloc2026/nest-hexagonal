@@ -1,10 +1,18 @@
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  Inject,
+  BadRequestException,
+} from '@nestjs/common';
 import { ProductRepositoryPort } from '../../domain/ports/product.repository.port';
 import { CreateProductDto } from '../dtos/create-product.dto';
 import { UpdateProductDto } from '../dtos/update-product.dto';
 import { Product } from '../../domain/entities/product.entity';
 import { PRODUCT_REPOSITORY } from '../../domain/ports/product.repository.port';
-
+import {
+  PaginatedResult,
+  PaginationDto,
+} from 'src/shared/interface/PaginatedResult';
 @Injectable()
 export class ProductService {
   constructor(
@@ -12,8 +20,10 @@ export class ProductService {
     private readonly productRepository: ProductRepositoryPort,
   ) {}
 
-  async findAll(): Promise<Product[]> {
-    return this.productRepository.findAll();
+  async findAll(
+    PaginationDto: PaginationDto,
+  ): Promise<PaginatedResult<Product>> {
+    return this.productRepository.findAll(PaginationDto);
   }
 
   async findById(id: string): Promise<Product> {

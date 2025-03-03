@@ -96,11 +96,9 @@ export class AuthService {
   }
 
   async logout(userId: string): Promise<void> {
-    this.logger.debug(`Attempting to logout user ${userId}`);
-
     try {
       const tokens = await this.redisService.getUserTokens(userId);
-      this.logger.debug(`Found tokens for user ${userId}: ${!!tokens}`);
+      this.logger.log(`Found tokens for user ${userId}: ${!!tokens}`);
 
       if (tokens) {
         // First revoke the tokens
@@ -111,8 +109,6 @@ export class AuthService {
           this.redisService.addToBlacklist(tokens.accessToken, userId),
           this.redisService.addToBlacklist(tokens.refreshToken, userId),
         ]);
-
-        this.logger.debug(`Successfully logged out user ${userId}`);
       } else {
         this.logger.warn(`No tokens found for user ${userId}`);
       }

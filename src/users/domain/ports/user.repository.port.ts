@@ -1,12 +1,12 @@
+import { BaseRepositoryPort } from 'src/shared/interface/BaseRepository.interface';
 import { User } from '../entities/user.entity';
-import { PaginatedResult } from 'src/shared/interface/PaginatedResult';
+import {
+  PaginatedResult,
+  PaginationDto,
+} from 'src/shared/interface/PaginatedResult';
 
-export interface UserRepositoryPort {
-  findAll(
-    page?: number,
-    limit?: number,
-    orderBy?: 'asc' | 'desc',
-  ): Promise<PaginatedResult<User>>;
+export interface UserRepositoryPort extends BaseRepositoryPort<User> {
+  findAll(PaginationDto: PaginationDto): Promise<PaginatedResult<User>>;
   findById(id: string): Promise<User | null>;
   findByEmail(email: string): Promise<User | null>;
   create(user: Omit<User, 'id' | 'createdAt' | 'updatedAt'>): Promise<User>;

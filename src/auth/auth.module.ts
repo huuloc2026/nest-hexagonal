@@ -10,6 +10,7 @@ import { AtStrategy } from './interface/strategies/at.strategy';
 import { RtStrategy } from './interface/strategies/rt.strategy';
 import { TokenBlacklistGuard } from './interface/guards/token-blacklist.guard';
 import { RedisModule } from '../shared/redis/redis.module';
+import { RtGuard } from './interface/guards/rt.guard';
 
 @Module({
   imports: [JwtModule.register({}), UsersModule, SharedModule, RedisModule],
@@ -23,6 +24,7 @@ import { RedisModule } from '../shared/redis/redis.module';
     AtStrategy,
     RtStrategy,
     TokenBlacklistGuard,
+    RtGuard,
   ],
   exports: [TokenBlacklistGuard],
 })

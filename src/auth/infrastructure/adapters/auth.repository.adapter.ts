@@ -18,14 +18,18 @@ export class AuthRepositoryAdapter implements AuthRepositoryPort {
         { sub: user.id, email: user.email },
         {
           secret: this.configService.get<string>('JWT_ACCESS_SECRET'),
-          expiresIn: '15m',
+          expiresIn: this.configService.get<string>(
+            'ACCESS_TOKEN_EXPIRATION_TIME',
+          ),
         },
       ),
       this.jwtService.signAsync(
         { sub: user.id },
         {
           secret: this.configService.get<string>('JWT_REFRESH_SECRET'),
-          expiresIn: '7d',
+          expiresIn: this.configService.get<string>(
+            'REFRESH_TOKEN_EXPIRATION_TIME',
+          ),
         },
       ),
     ]);
