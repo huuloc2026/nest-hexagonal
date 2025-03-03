@@ -47,26 +47,32 @@ export class RedisService implements OnModuleInit {
   async addToBlacklist(
     token: string,
     userId: string,
-    ttl: number = 3600,
+    ttl = 3600,
   ): Promise<void> {
     const key = this.getBlacklistKey(token);
-    await this.cacheManager.set(key, userId, ttl); // TTL theo giây
+    this.logger.debug(`Adding token to blacklist: ${token.slice(0, 10)}...`);
+    await this.cacheManager.set(key, userId, ttl);
   }
 
   async isBlacklisted(token: string): Promise<boolean> {
     const key = this.getBlacklistKey(token);
     const value = await this.cacheManager.get(key);
-    return value !== undefined;
+    this.logger.debug(
+      `Blacklist check for ${token.slice(0, 10)}...: ${!!value}`,
+    );
+    return !!value;
   }
 
   async storeUserTokens(userId: string, tokens: TokenPair): Promise<void> {
     const key = this.getUserTokensKey(userId);
-    await this.cacheManager.set(key, tokens, 7 * 24 * 60 * 60); // 7 ngày (đơn vị: giây)
+    this.logger.debug(`Storing tokens for user ${userId}`);
+    await this.cacheManager.set(key, tokens, 7 * 24 * 60 * 60);
   }
 
   async getUserTokens(userId: string): Promise<TokenPair | null> {
     const key = this.getUserTokensKey(userId);
     const tokens = await this.cacheManager.get<TokenPair>(key);
+    this.logger.debug(`Retrieved tokens for user ${userId}: ${!!tokens}`);
     return tokens || null;
   }
 

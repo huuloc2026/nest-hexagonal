@@ -19,6 +19,8 @@ import { RedisService } from '../../../shared/redis/redis.service';
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+
   constructor(
     @Inject(AUTH_REPOSITORY)
     private readonly authRepository: AuthRepositoryPort,
@@ -26,10 +28,12 @@ export class AuthService {
     private readonly cryptoService: CryptoService,
     private readonly redisService: RedisService,
   ) {}
+
   async register(registerDto: RegisterDto): Promise<Auth> {
     const user = await this.userService.create(registerDto);
     return this.authRepository.generateTokens(user);
   }
+
   async login(loginDto: LoginDto): Promise<Auth> {
     const user = await this.userService.findByEmail(loginDto.email);
     if (!user) {
@@ -45,18 +49,16 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
 
-    // Revoke any existing tokens
-    await this.redisService.revokeUserTokens(user.id);
-
     // Generate new tokens
     const tokens = await this.authRepository.generateTokens(user);
 
-    // Store new tokens
-    const result = await this.redisService.storeUserTokens(user.id, {
+    // Store tokens in Redis
+    await this.redisService.storeUserTokens(user.id, {
       accessToken: tokens.accessToken,
       refreshToken: tokens.refreshToken,
     });
 
+    this.logger.debug(`Stored tokens for user ${user.id}`);
     return tokens;
   }
 
@@ -94,13 +96,29 @@ export class AuthService {
   }
 
   async logout(userId: string): Promise<void> {
-    const tokens = await this.redisService.getUserTokens(userId);
-    if (tokens) {
-      await Promise.all([
-        this.redisService.addToBlacklist(tokens.accessToken, userId),
-        this.redisService.addToBlacklist(tokens.refreshToken, userId),
-      ]);
-      await this.redisService.revokeUserTokens(userId);
+    this.logger.debug(`Attempting to logout user ${userId}`);
+
+    try {
+      const tokens = await this.redisService.getUserTokens(userId);
+      this.logger.debug(`Found tokens for user ${userId}: ${!!tokens}`);
+
+      if (tokens) {
+        // First revoke the tokens
+        await this.redisService.revokeUserTokens(userId);
+
+        // Then add them to blacklist
+        await Promise.all([
+          this.redisService.addToBlacklist(tokens.accessToken, userId),
+          this.redisService.addToBlacklist(tokens.refreshToken, userId),
+        ]);
+
+        this.logger.debug(`Successfully logged out user ${userId}`);
+      } else {
+        this.logger.warn(`No tokens found for user ${userId}`);
+      }
+    } catch (error) {
+      this.logger.error(`Error during logout for user ${userId}:`, error);
+      throw error;
     }
   }
 }
