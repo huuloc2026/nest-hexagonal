@@ -6,7 +6,7 @@ import { USER_REPOSITORY } from './domain/ports/user.repository.port';
 import { SharedModule } from 'src/shared/shared.module';
 
 @Module({
-  imports: [SharedModule],
+  imports: [],
   controllers: [UserController],
   providers: [
     UserService,

@@ -15,17 +15,20 @@ import { RtGuard } from 'src/auth/interface/guards/rt.guard';
 import { AtGuard } from '../guards/at.guard';
 import { GetUser } from '../decorators/get-user.decorator';
 import { ChangePasswordDto } from 'src/auth/application/dtos/change-password.dto';
+import { IsPublic } from 'src/auth/interface/decorators/is-public.decorator';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @IsPublic()
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() loginDto: LoginDto) {
     return await this.authService.login(loginDto);
   }
 
+  @IsPublic()
   @Post('register')
   @HttpCode(HttpStatus.OK)
   async register(@Body() registerDto: RegisterDto) {
@@ -39,7 +42,6 @@ export class AuthController {
     return await this.authService.refreshToken(refreshToken);
   }
 
-  @UseGuards(AtGuard)
   @Patch('change-password')
   @HttpCode(HttpStatus.OK)
   async changePassword(
@@ -50,7 +52,6 @@ export class AuthController {
     return { message: 'Password changed successfully' };
   }
 
-  @UseGuards(AtGuard)
   @Post('logout')
   @HttpCode(HttpStatus.OK)
   async logout(@GetUser('sub') userId: string) {

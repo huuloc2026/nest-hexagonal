@@ -17,14 +17,13 @@ import { IsPublic } from 'src/auth/interface/decorators/is-public.decorator';
 import { GetUser } from 'src/auth/interface/decorators/get-user.decorator';
 import { PaginationDto } from 'src/shared/interface/PaginatedResult';
 
-@UseGuards(AtGuard)
 @Controller('products')
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Get()
   findAll(
-    @GetUser('email') email: string,
+    @GetUser('sub') email: string,
     @Query() paginationDto: PaginationDto,
   ) {
     return this.productService.findAll(paginationDto);

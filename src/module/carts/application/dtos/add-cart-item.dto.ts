@@ -1,10 +1,13 @@
-import { IsInt, IsString, Min } from 'class-validator';
+import { Expose } from 'class-transformer';
+import { IsInt, IsNotEmpty, IsString, IsUUID, Min } from 'class-validator';
 
 export class AddCartItemDto {
-  @IsString()
+  @IsNotEmpty()
+  @IsUUID()
+  @Expose()
   productId: string;
 
-  @IsInt()
-  @Min(1)
+  @Expose()
+  @IsNotEmpty()
   quantity: number;
 }

@@ -6,7 +6,7 @@ import { AuthModule } from '../../auth/auth.module';
 import { PRODUCT_REPOSITORY } from 'src/module/products/domain/ports/product.repository.port';
 import { ProductRepositoryAdapter } from 'src/module/products/infrastructure/adapters/product.repository.adapter';
 @Module({
-  imports: [AuthModule],
+  imports: [],
   controllers: [ProductController],
   providers: [
     ProductService,
