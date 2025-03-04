@@ -53,7 +53,38 @@ export class CartRepositoryAdapter implements CartRepositoryPort {
     return this.mapToCartEntity(cart);
   }
 
+  async findCartItemByProductId(
+    cartId: string,
+    productId: string,
+  ): Promise<CartItem | null> {
+    const cartItem = await this.prisma.cartItem.findFirst({
+      where: {
+        cartId,
+        productId,
+      },
+      include: {
+        product: true,
+      },
+    });
+    return cartItem ? this.mapToCartItemEntity(cartItem) : null;
+  }
+
   async addItem(cartId: string, item: AddCartItemDto): Promise<CartItem> {
+    const existingItem = await this.findCartItemByProductId(
+      cartId,
+      item.productId,
+    );
+
+    if (existingItem) {
+      // Update existing item quantity
+      return this.updateItemQuantity(
+        cartId,
+        existingItem.id,
+        existingItem.quantity + item.quantity,
+      );
+    }
+
+    // Create new item if it doesn't exist
     const cartItem = await this.prisma.cartItem.create({
       data: {
         cartId,
@@ -64,6 +95,7 @@ export class CartRepositoryAdapter implements CartRepositoryPort {
         product: true,
       },
     });
+
     return this.mapToCartItemEntity(cartItem);
   }
 

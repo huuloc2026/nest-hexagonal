@@ -29,19 +29,14 @@ export class CartController {
   //     return this.cartService.findAll(paginationDto);
   //   }
 
-  //   @Get(':id')
-  //   findById(@Param('id') id: string) {
-  //     return this.cartService.findById(id);
-  //   }
+  @Get()
+  getCartOfUser(@GetUser('sub') userId: string) {
+    return this.cartService.getCart(userId);
+  }
 
   @Post()
   create(@GetUser('sub') userId: string, @Body() itemDto: AddCartItemDto) {
-    console.clear();
-    const { productId, quantity } = itemDto;
-    return this.cartService.addItem(userId, {
-      productId,
-      quantity: +quantity,
-    });
+    return this.cartService.addItem(userId, itemDto);
   }
 
   //   @Put(':id')

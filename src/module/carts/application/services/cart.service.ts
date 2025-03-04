@@ -30,6 +30,23 @@ export class CartService {
 
   async addItem(userId: string, itemDto: AddCartItemDto): Promise<CartItem> {
     const cart = await this.getOrCreateCart(userId);
+
+    // Check if product exists in cart
+    const existingItem = await this.cartRepository.findCartItemByProductId(
+      cart.id,
+      itemDto.productId,
+    );
+
+    if (existingItem) {
+      // If item exists, update quantity
+      return this.cartRepository.updateItemQuantity(
+        cart.id,
+        existingItem.id,
+        existingItem.quantity + itemDto.quantity,
+      );
+    }
+
+    // If item doesn't exist, add new item
     return this.cartRepository.addItem(cart.id, itemDto);
   }
 
