@@ -36,13 +36,12 @@ export class CartController {
 
   @Post()
   create(@GetUser('sub') userId: string, @Body() itemDto: AddCartItemDto) {
-    console.log(userId);
+    console.clear();
     const { productId, quantity } = itemDto;
-    return userId;
-    // return this.cartService.addItem(userId, {
-    //   productId,
-    //   quantity: +quantity,
-    // });
+    return this.cartService.addItem(userId, {
+      productId,
+      quantity: +quantity,
+    });
   }
 
   //   @Put(':id')
