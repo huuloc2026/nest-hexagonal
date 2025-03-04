@@ -10,10 +10,8 @@ import {
   Query,
 } from '@nestjs/common';
 
-import { AtGuard } from 'src/auth/interface/guards/at.guard';
-import { IsPublic } from 'src/auth/interface/decorators/is-public.decorator';
-import { GetUser } from 'src/auth/interface/decorators/get-user.decorator';
-import { PaginationDto } from 'src/shared/interface/PaginatedResult';
+import { GetUser } from 'src/module/auth/interface/decorators/get-user.decorator';
+
 import { CartService } from '../application/services/cart.service';
 import { AddCartItemDto } from 'src/module/carts/application/dtos/add-cart-item.dto';
 

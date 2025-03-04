@@ -12,9 +12,9 @@ import {
 import { ProductService } from '../../application/services/product.service';
 import { CreateProductDto } from '../../application/dtos/create-product.dto';
 import { UpdateProductDto } from '../../application/dtos/update-product.dto';
-import { AtGuard } from 'src/auth/interface/guards/at.guard';
-import { IsPublic } from 'src/auth/interface/decorators/is-public.decorator';
-import { GetUser } from 'src/auth/interface/decorators/get-user.decorator';
+import { AtGuard } from 'src/module/auth/interface/guards/at.guard';
+import { IsPublic } from 'src/module/auth/interface/decorators/is-public.decorator';
+import { GetUser } from 'src/module/auth/interface/decorators/get-user.decorator';
 import { PaginationDto } from 'src/shared/interface/PaginatedResult';
 
 @Controller('products')

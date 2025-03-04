@@ -5,7 +5,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
-import { RedisService } from '../../../shared/redis/redis.service';
+import { RedisService } from 'src/shared/redis/redis.service';
 
 @Injectable()
 export class RtGuard extends AuthGuard('jwt-refresh') {

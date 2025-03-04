@@ -10,12 +10,12 @@ import {
 import { AuthService } from '../../application/services/auth.service';
 
 import { GetRefreshToken } from '../decorators/get-refresh-token.decorator';
-import { LoginDto, RegisterDto } from 'src/auth/application/dtos';
-import { RtGuard } from 'src/auth/interface/guards/rt.guard';
+import { LoginDto, RegisterDto } from 'src/module/auth/application/dtos';
+import { RtGuard } from 'src/module/auth/interface/guards/rt.guard';
 import { AtGuard } from '../guards/at.guard';
 import { GetUser } from '../decorators/get-user.decorator';
-import { ChangePasswordDto } from 'src/auth/application/dtos/change-password.dto';
-import { IsPublic } from 'src/auth/interface/decorators/is-public.decorator';
+import { ChangePasswordDto } from 'src/module/auth/application/dtos/change-password.dto';
+import { IsPublic } from 'src/module/auth/interface/decorators/is-public.decorator';
 
 @Controller('auth')
 export class AuthController {

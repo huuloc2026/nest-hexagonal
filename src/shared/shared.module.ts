@@ -3,7 +3,7 @@ import { CryptoService } from './services/crypto.service';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
 import { RedisModule } from './redis/redis.module';
-import { AuthModule } from 'src/auth/auth.module';
+import { AuthModule } from '../module/auth/auth.module';
 
 @Global()
 @Module({

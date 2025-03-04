@@ -5,7 +5,7 @@ import {
   UnauthorizedException,
   Logger,
 } from '@nestjs/common';
-import { RedisService } from '../../../shared/redis/redis.service';
+import { RedisService } from 'src/shared/redis/redis.service';
 
 @Injectable()
 export class TokenBlacklistGuard implements CanActivate {
