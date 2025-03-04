@@ -250,7 +250,7 @@ $ npm run swagger
 
 ## Screenshot
 
-![alt text](https://market-resized.envatousercontent.com/previews/files/402409535/00_preview.png?w=590&h=300&cf_fit=crop&crop=top&format=auto&q=85&s=c7a374dfb52df28ae1f543a0b0ceaa3f539111047395c731655c7fafc9954172)
+![alt text](https://i.gifer.com/ItDJ.gif)
 
 ## License
 
