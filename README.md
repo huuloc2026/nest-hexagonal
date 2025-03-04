@@ -1,3 +1,22 @@
+<div align="center">
+  <img src="https://camo.githubusercontent.com/47e8d142fa700bb33afd63b13769d97f7a1a84a66f81f079a59eeaa4a781becb/68747470733a2f2f66756c6c737461636b726f79686f6d652e66696c65732e776f726470726573732e636f6d2f323031392f30332f636c65616e6172636869746563747572652e6a7067" width="400" alt="Huu Loc" />
+</div>
+
+# Table of Contents
+
+- [Description](#description)
+- [Author](#author)
+- [Architecture Overview](#architecture-overview)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Project Structure](#project-structure)
+- [Installation](#installation)
+- [Running the app](#running-the-app)
+- [Test](#test)
+- [API Documentation](#api-documentation)
+- [Screenshot](#screenshot)
+- [License](#license)
+
 ## Description
 
 This is an E-commerce Backend API built with [Nest](https://github.com/nestjs/nest) framework using Hexagonal Architecture (also known as Ports and Adapters pattern). This project demonstrates clean architecture principles with a clear separation of concerns.
@@ -190,3 +209,65 @@ src/
     │   └── crypto.service.ts
     └── shared.module.ts
 ```
+
+## Installation
+
+```bash
+$ npm install
+```
+
+## Running the app
+
+```bash
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+```
+
+## Test
+
+```bash
+# unit tests
+$ npm run test
+
+# e2e tests
+$ npm run test:e2e
+
+# test coverage
+$ npm run test:cov
+```
+
+## API Documentation
+
+```bash
+$ npm run swagger
+```
+
+## Screenshot
+
+![alt text](https://market-resized.envatousercontent.com/previews/files/402409535/00_preview.png?w=590&h=300&cf_fit=crop&crop=top&format=auto&q=85&s=c7a374dfb52df28ae1f543a0b0ceaa3f539111047395c731655c7fafc9954172)
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Contact
+
+If you have any questions or feedback, please feel free to contact me at [huuloc2026@gmail.com](mailto:huuloc2026@gmail.com).
+
+## Acknowledgments
+
+- [NestJS](https://github.com/nestjs/nest)
+- [Hexagonal Architecture](https://github.com/alistairscott/hexagonal-architecture)
+- [Prisma](https://github.com/prisma/prisma)
+- [JWT](https://github.com/auth0/node-jsonwebtoken)
+- [Stripe](https://github.com/stripe/stripe-node)
+- [OpenAPI](https://github.com/nestjs/swagger)
+- [Jest](https://github.com/jestjs/jest)
+- [Redis](https://github.com/redis/node-redis)
+- [BullMQ](https://github.com/OptimalBits/bullmq)
