@@ -14,7 +14,6 @@ export interface CartRepositoryPort {
   removeItem(cartId: string, itemId: string): Promise<void>;
   clearCart(cartId: string): Promise<void>;
   getCartItem(cartId: string, itemId: string): Promise<CartItem | null>;
-
   findCartItemByProductId(
     cartId: string,
     productId: string,

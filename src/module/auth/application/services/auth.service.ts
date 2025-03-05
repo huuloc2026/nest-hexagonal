@@ -6,16 +6,20 @@ import {
   ForbiddenException,
 } from '@nestjs/common';
 
-import { Auth } from '../../domain/entities/auth.entity';
-import {
-  AuthRepositoryPort,
-  AUTH_REPOSITORY,
-} from '../../domain/ports/auth.repository.port';
 import { UserService } from 'src/module/users/application/services/user.service';
 import { CryptoService } from 'src/shared/services/crypto.service';
-import { LoginDto, RegisterDto } from 'src/module/auth/application/dtos';
-import { ChangePasswordDto } from '../dtos/change-password.dto';
+import {
+  LoginDto,
+  RegisterDto,
+  ChangePasswordDto,
+} from 'src/module/auth/application/dtos';
+
 import { RedisService } from 'src/shared/redis/redis.service';
+import {
+  AUTH_REPOSITORY,
+  AuthRepositoryPort,
+} from 'src/module/auth/domain/ports/auth.repository.port';
+import { Auth } from 'src/module/auth/domain/entities/auth.entity';
 
 @Injectable()
 export class AuthService {
